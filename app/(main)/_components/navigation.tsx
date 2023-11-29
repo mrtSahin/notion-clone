@@ -1,6 +1,6 @@
 "use client"
 
-import { ChevronsLeft, MenuIcon, PlusCircle } from 'lucide-react'
+import { ChevronsLeft, MenuIcon, PlusCircle, Search, Settings } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 import React, { ElementRef, useEffect, useRef, useState } from 'react'
 import { useMediaQuery } from 'usehooks-ts'
@@ -138,6 +138,18 @@ export const Navigation = () => {
         </div>{/** sidebar i kapatacak olan icon */}
         <div>
           <UserItem />
+          <Item
+          label='Search'
+          icon={Search}
+          isSearch
+          onClick={()=>{}}
+          />
+          <Item
+          label='Settings'
+          icon={Settings}
+          
+          onClick={()=>{}}
+          />
           <Item
             onClick={handleCreate}
             label='New page'

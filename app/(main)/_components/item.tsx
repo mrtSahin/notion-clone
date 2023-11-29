@@ -8,7 +8,7 @@ import {
   LucideIcon
 } from "lucide-react";
 
-interface ItemProps {
+interface ItemProps {   // sol taraftaki sidebar icerisindeki icon turleri
   id?: Id<"documents">;
   documentIcon?: string;
   active?: boolean;
@@ -21,7 +21,7 @@ interface ItemProps {
   icon: LucideIcon
 }
 
-export const Item = ({
+export const Item = ({  
   id,
   label,
   onClick,
@@ -76,9 +76,10 @@ export const Item = ({
       </span>
       {
         isSearch &&(
-          <kbd className="ml-auto pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded bordert bg-muted"> {/**kisayol tuslarini kullanicilara gosterirken bu etiket icerisinde gostermeliymisiz*/}
-            <span className="text-xs">⌘</span>k
-          </kbd>
+          <kbd className="ml-auto pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded bordert bg-muted
+          px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100"> {/**kisayol tuslarini kullanicilara gosterirken bu etiket icerisinde gostermeliymisiz*/}
+            <span className="text-xs">⌘</span>k 
+          </kbd>//span icerisindeki ctrl tusuna karsilik geliyor
         )
       }
     </div>
