@@ -4,7 +4,7 @@ import { ChevronsLeft, MenuIcon, PlusCircle, Search, Settings } from 'lucide-rea
 import { usePathname } from 'next/navigation'
 import React, { ElementRef, useEffect, useRef, useState } from 'react'
 import { useMediaQuery } from 'usehooks-ts'
-import { useMutation, useQuery } from 'convex/react'
+import { useMutation } from 'convex/react'
 import { toast } from 'sonner'
 
 import { cn } from '@/lib/utils'
@@ -12,11 +12,11 @@ import { api } from '@/convex/_generated/api'
 
 import { UserItem } from './user-item'
 import { Item } from './item'
+import { DocumentList } from './document-list'
 
 export const Navigation = () => {
   const pathname = usePathname()
   const isMobile = useMediaQuery("(max-width:768px)")// ekran genişliği 768px den küçükse true yoksa false döner
-  const documents = useQuery(api.documents.get) // convex dosyasi icerisinde documents.tsz=x de olusturdugumuz metodlar
   const create = useMutation(api.documents.create)
 
 
@@ -106,12 +106,12 @@ export const Navigation = () => {
 
 
   const handleCreate = () => {
-    const promise = create({title:"Untitled"})
+    const promise = create({ title: "Untitled" })
 
-    toast.promise(promise,{
-      loading:"Creating a new note...",
-      success:"New note created!",
-      error:"Failed to create a new note."
+    toast.promise(promise, {
+      loading: "Creating a new note...",
+      success: "New note created!",
+      error: "Failed to create a new note."
     })
   }
 
@@ -139,16 +139,15 @@ export const Navigation = () => {
         <div>
           <UserItem />
           <Item
-          label='Search'
-          icon={Search}
-          isSearch
-          onClick={()=>{}}
+            label='Search'
+            icon={Search}
+            isSearch
+            onClick={() => { }}
           />
           <Item
-          label='Settings'
-          icon={Settings}
-          
-          onClick={()=>{}}
+            label='Settings'
+            icon={Settings}
+            onClick={() => { }}
           />
           <Item
             onClick={handleCreate}
@@ -157,9 +156,7 @@ export const Navigation = () => {
           />
         </div>
         <div className='mt-4'>
-          {documents?.map((document) => (
-            <p key={document._id}>{document.title}</p> // convex db den aldigimiz verileri soldaki sidebar da siraliyoruz
-          ))}
+            <DocumentList/>
         </div>
         <div
           onMouseDown={handleMouseDown}

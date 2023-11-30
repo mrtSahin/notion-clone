@@ -1,5 +1,6 @@
 'use client'
 
+import { Skeleton } from "@/components/ui/skeleton";
 import { Id } from "@/convex/_generated/dataModel";
 import { cn } from "@/lib/utils";
 import {
@@ -21,7 +22,7 @@ interface ItemProps {   // sol taraftaki sidebar icerisindeki icon turleri
   icon: LucideIcon
 }
 
-export const Item = ({  
+export const Item = ({
   id,
   label,
   onClick,
@@ -75,13 +76,27 @@ export const Item = ({
         {label}
       </span>
       {
-        isSearch &&(
+        isSearch && (
           <kbd className="ml-auto pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded bordert bg-muted
           px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100"> {/**kisayol tuslarini kullanicilara gosterirken bu etiket icerisinde gostermeliymisiz*/}
-            <span className="text-xs">⌘</span>k 
+            <span className="text-xs">⌘</span>k
           </kbd>//span icerisindeki ctrl tusuna karsilik geliyor
         )
       }
+    </div>
+  )
+}
+
+Item.Skeleton = function ItemSkeleton({ level }: { level?: number }) {
+  return (
+    <div
+      style={{
+        paddingLeft: level ? `${(level*12+25)}px` : '12px'
+      }}
+      className="flex gap-x-2 py-[3px]"
+    >
+      <Skeleton className="h-4 w-4"/>
+      <Skeleton className="h-4 w-[30%]"/>
     </div>
   )
 }
