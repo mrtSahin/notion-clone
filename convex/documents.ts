@@ -4,7 +4,7 @@ import { mutation, query } from "./_generated/server"
 import { Doc, Id } from "./_generated/dataModel"
 
 
-export const archive =  mutation({
+export const archive = mutation({
   args: { id: v.id("documents") },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity()
@@ -111,3 +111,63 @@ export const create = mutation({ // convex db de veri alani acacak olan metod
   }
 })
 
+export const gatTrash = query({
+
+  handler: async (ctx) => {
+    const identity = await ctx.auth.getUserIdentity()
+
+    if (!identity) {
+      throw new Error("Not authenticated") // kullanici giris yapmadiginda bu hatayi atacak
+    }
+
+    const userId = identity.subject
+
+    const documents = await ctx.db
+      .query("documents")
+      .withIndex("by_user", (q) => q.eq("userId", userId))
+      .filter((q) => q.eq(q.field("isArchived"), true))
+      .order("desc")
+      .collect()
+
+    return documents
+  }
+})
+
+export const restore = mutation({ //silinen dosyayi geri getirme
+  args: { id: v.id("documents") },
+
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity()
+
+    if (!identity) {
+      throw new Error("Not authenticated") // kullanici giris yapmadiginda bu hatayi atacak
+    }
+
+    const userId = identity.subject
+
+    const existingDocument = await ctx.db.get(args.id)
+
+    if (!existingDocument) {
+      throw new Error("Not found")
+    }
+
+    if (existingDocument.userId !== userId) {
+      throw new Error("Unauthorized")
+    }
+
+
+    const options: Partial<Doc<"documents">>={
+      isArchived: false
+    }
+
+    if(existingDocument.parentDocument){ // 
+      const parent= await ctx.db.get(existingDocument.parentDocument)
+      if(parent?.isArchived){
+        options.parentDocument=undefined
+      }
+    }
+    await ctx.db.patch(args.id, options)
+
+    return existingDocument
+  }
+})

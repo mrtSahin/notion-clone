@@ -34,7 +34,7 @@ interface ItemProps {   // sol taraftaki sidebar icerisindeki icon turleri
   level?: number;
   onExpand?: () => void;
   label: string;
-  onClick: () => void;
+  onClick?: () => void; // trash icon inda onclick metodu kullanmadigimiz icin bunu opsiyonel yaptik
   icon: LucideIcon
 }
 
