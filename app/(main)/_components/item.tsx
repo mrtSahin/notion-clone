@@ -1,13 +1,19 @@
 'use client'
+import {
+  ChevronDown,
+  ChevronRight,
+  LucideIcon,
+  Plus
+} from "lucide-react";
 
 import { Skeleton } from "@/components/ui/skeleton";
 import { Id } from "@/convex/_generated/dataModel";
 import { cn } from "@/lib/utils";
-import {
-  ChevronDown,
-  ChevronRight,
-  LucideIcon
-} from "lucide-react";
+
+import {useMutation} from 'convex/react'
+import { api } from "@/convex/_generated/api";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 interface ItemProps {   // sol taraftaki sidebar icerisindeki icon turleri
   id?: Id<"documents">;
@@ -35,8 +41,42 @@ export const Item = ({
   active
 }: ItemProps) => {
 
-  const ChevronIcon = expanded ? ChevronDown : ChevronRight
+  const router = useRouter()
+  const create = useMutation(api.documents.create)
 
+  const handleExpand=(
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>
+  )=>{
+    // normalde document-list ten yollanan onclick metodunun amaci liste elemamının üzerine basınca onu kendi id si ile(url e ekleyerek) yeni bir sekmede açmak
+    // ama biz bu elementin içerisinde bulunan ok işaretine basınca da içerisindeki documentleri görmek isitoyruz. ama bu ok işareti bu elementin içerisinde olduğundan dolayı ona basınca da üstteki işlemi yapıyor.
+    // işte tam burada stopPropagation metodu ile gelen onClick metodunun işlevini durduruyoruz. ve böylece yeni bir sayfada dosyayı açmak yerine sidebar içerisinde dosyayı aşağı yönde uzatıyor ve içerisindeki diğer dosyataları görebiliyoruz.
+    event.stopPropagation()
+    onExpand?.()
+  }
+
+
+  const onCreate=(
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>
+  )=>{
+    event.stopPropagation()
+    if(!id) return // eger id yani document yoksa metodu kir
+    const promise = create({title: "Untitled", parentDocument:id}) // bu documentin icerisinden yeni document olusturdugumuz icin yeni olusturulan documentin parenti bu document olur
+    .then((documentId)=>{
+      if(!expanded){
+        onExpand?.()
+      }
+      //router.push(`/documents/${documentId}`)
+    })
+    
+    toast.promise(promise,{
+      loading:"Creating a new note...",
+      success:"New note created!",
+      error:"Failde to create a new note."
+    })
+  }
+
+
+  const ChevronIcon = expanded ? ChevronDown : ChevronRight
 
 
   return (
@@ -51,11 +91,11 @@ export const Item = ({
         active && "bg-primary/5 text-primary"
       )}
     >
-      {!!id && (
+      {!!id && ( // burada id nin önündeki !! bu değişkenin içerisinde veri var mı yok mu ona bakıyor varsa true yoksa false   
         <div
           role="button"
           className="h-full rounded-sm hover:bg-neutral-300 dark:bg-neutral-600 mr-1"
-          onClick={() => { }}
+          onClick={handleExpand}
         >
           <ChevronIcon
             className="h-4 w-4 shrink-0 text-muted-foreground/50"
@@ -80,9 +120,20 @@ export const Item = ({
           <kbd className="ml-auto pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded bordert bg-muted
           px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100"> {/**kisayol tuslarini kullanicilara gosterirken bu etiket icerisinde gostermeliymisiz*/}
             <span className="text-xs">⌘</span>k
-          </kbd>//span icerisindeki ctrl tusuna karsilik geliyor
+          </kbd>//span icerisindeki işaret, ctrl tusuna karsilik geliyor
         )
       }
+
+      {!!id && ( // documentlerin yanindaki arti isareti. dosya icerisinde yeni dosya olusturacak
+        <div className="ml-auto flex items-center gap-x-2">
+          <div
+          role="button"
+          onClick={onCreate}
+          className="opacity-0 group-hover:opacity-100 h-full ml-auto rounded-sm hover:bg-neutral-300 dark:hover:bg-neutral-600">
+            <Plus className="h-4 w-4 text-muted-foreground"/>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
