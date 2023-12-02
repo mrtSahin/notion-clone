@@ -3,18 +3,58 @@ import { v } from "convex/values";
 import { mutation, query } from "./_generated/server"
 import { Doc, Id } from "./_generated/dataModel"
 
-// export const get = query({
-//   handler: async (ctx) => {
-//     const identity = await ctx.auth.getUserIdentity()
 
-//     if (!identity) { // butun islemleri yapmadan once her seferinde kullanicinin giris yapip yapmadigini kontrol ediyoruz
-//       throw new Error("Not authenticated") // kullanici giris yapmadiginda bu hatayi atacak
-//     }
+export const archive =  mutation({
+  args: { id: v.id("documents") },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity()
 
-//     const documents = await ctx.db.query("documents").collect() // collect ile verileri bir dizi icerisinde sunuyor
-//     return documents 
-//   }
-// })
+    if (!identity) {
+      throw new Error('Not authenticated')// butun islemleri yapmadan once her seferinde kullanicinin giris yapip yapmadigini kontrol ediyoruz
+    }
+
+    const userId = identity.subject
+
+    const existingDocument = await ctx.db.get(args.id)
+
+    if (!existingDocument) {
+      throw new Error("Not found")
+    }
+
+    if (existingDocument.userId !== userId) {
+      throw new Error("Unauthorized")
+    }
+
+    // bi documenti silerken onun childlarini da(yani icerisindeki documentler) silmemiz lazim
+    const recursiveArchive = async (documentId: Id<"documents">) => {
+      const children = await ctx.db
+        .query('documents')
+        .withIndex('by_user_parent', (q) => (
+          q
+            .eq("userId", userId)
+            .eq("parentDocument", documentId)
+        ))
+        .collect()
+
+      for (const child of children) {
+        await ctx.db.patch(child._id, {
+          isArchived: true
+        })
+
+        await recursiveArchive(child._id)
+
+      }
+    }
+
+    const document = await ctx.db.patch(args.id, {
+      isArchived: true,
+    })
+
+    recursiveArchive(args.id)
+
+    return document
+  }
+})
 
 export const getSideBar = query({
   args: {
@@ -24,7 +64,7 @@ export const getSideBar = query({
     const identity = await ctx.auth.getUserIdentity()
 
     if (!identity) {
-      throw new Error('Not authenticated')
+      throw new Error('Not authenticated')// butun islemleri yapmadan once her seferinde kullanicinin giris yapip yapmadigini kontrol ediyoruz
     }
 
     const userId = identity.subject
@@ -36,12 +76,12 @@ export const getSideBar = query({
           .eq('userId', userId)
           .eq('parentDocument', args.parentDocument)
       )
-      .filter((q)=>
-      q.eq(q.field('isArchived'),false)
+      .filter((q) =>
+        q.eq(q.field('isArchived'), false)
       )
       .order('desc')
-      .collect()
-      return documents
+      .collect()// collect ile verileri bir dizi icerisinde sunuyor
+    return documents
   }
 })
 
