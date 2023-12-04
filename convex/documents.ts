@@ -155,6 +155,11 @@ export const restore = mutation({ //silinen dosyayi geri getirme
       throw new Error("Unauthorized")
     }
 
+    const recursiveRestore = async (documentIf: Id<'documents'>)=>{
+      const children = await ctx.db
+      .query("documents")
+      .withIndex('by_user_parent')
+    }
 
     const options: Partial<Doc<"documents">>={
       isArchived: false
