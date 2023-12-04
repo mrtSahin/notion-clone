@@ -2,6 +2,9 @@ import { useState, useEffect } from "react";
 
 
 
+// anasayfada ekran scroll edilince navbarin altina border ekleniyor 
+// orada ekranin scroll edilip edilmedigi bilgisi buradan aliniyor
+
 export const useScrollTop = (threshold = 10) => {
   const [scrolled, setScrolled] = useState(false)
 
