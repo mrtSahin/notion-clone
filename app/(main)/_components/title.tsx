@@ -32,7 +32,7 @@ export const Title = ({
     setIsEditing(true)
     setTimeout(() => {
       inputRef.current?.focus()
-      inputRef.current?.setSelectionRange(0, inputRef.current.value.length)
+      inputRef.current?.setSelectionRange(0, inputRef.current.value.length) // input icerisindeki yaziyi secer(kisacasi ctrl+a)
     }, 0)
   }
 
