@@ -20,9 +20,12 @@ import { UserItem } from './user-item'
 import { Item } from './item'
 import { DocumentList } from './document-list'
 import { TrashBox } from './trash-box'
+import { useSettings } from '@/hooks/use-settings'
+
 
 export const Navigation = () => {
-  const search=useSearch()
+  const settings = useSettings()
+  const search = useSearch()
   const pathname = usePathname()
   const isMobile = useMediaQuery("(max-width:768px)")// ekran genişliği 768px den küçükse true yoksa false döner
   const create = useMutation(api.documents.create)
@@ -152,10 +155,11 @@ export const Navigation = () => {
             isSearch
             onClick={search.onOpen}
           />
+
           <Item
             label='Settings'
             icon={Settings}
-            onClick={() => { }}
+            onClick={settings.onOpen}
           />
           <Item
             onClick={handleCreate}
@@ -175,8 +179,8 @@ export const Navigation = () => {
               <Item label='Trash' icon={Trash} />
             </PopoverTrigger>
             <PopoverContent
-            className='p-0 w-72'
-            side={isMobile ? "bottom" : "right"}
+              className='p-0 w-72'
+              side={isMobile ? "bottom" : "right"}
             >
               <TrashBox />
             </PopoverContent>

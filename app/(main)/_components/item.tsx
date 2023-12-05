@@ -120,7 +120,7 @@ const onArchive = (
       {!!id && ( // burada id nin önündeki !! bu değişkenin içerisinde veri var mı yok mu ona bakıyor varsa true yoksa false   
         <div
           role="button"
-          className="h-full rounded-sm hover:bg-neutral-300 dark:bg-neutral-600 mr-1"
+          className="h-full rounded-sm hover:bg-neutral-300 dark:hover:bg-neutral-600 mr-1"
           onClick={handleExpand}
         >
           <ChevronIcon

@@ -1,4 +1,4 @@
-"use-client"
+"use client"
 
 import { Doc, Id } from "@/convex/_generated/dataModel"
 import { useParams, useRouter } from "next/navigation"
