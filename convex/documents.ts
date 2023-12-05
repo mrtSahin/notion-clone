@@ -223,22 +223,93 @@ export const remove = mutation({
 
 export const getSearch = query({
   handler: async (ctx) => {
-    
-      const identity = await ctx.auth.getUserIdentity()
 
-      if (!identity) {
-        throw new Error("Not authenticated") // kullanici giris yapmadiginda bu hatayi atacak
-      }
+    const identity = await ctx.auth.getUserIdentity()
 
-      const userId = identity.subject
+    if (!identity) {
+      throw new Error("Not authenticated") // kullanici giris yapmadiginda bu hatayi atacak
+    }
 
-      const documents= await ctx.db
+    const userId = identity.subject
+
+    const documents = await ctx.db
       .query("documents")
-      .withIndex("by_user",(q)=>q.eq("userId",userId))
-      .filter((q)=>q.eq(q.field("isArchived"),false))
+      .withIndex("by_user", (q) => q.eq("userId", userId))
+      .filter((q) => q.eq(q.field("isArchived"), false))
       .order("desc")
       .collect()
 
-      return documents
+    return documents
+  }
+})
+
+export const getById = query({ // components icerisindeki navbar da kullaniliyor
+  args: { documentId: v.id('documents') }, // metodu cagirdigimizda args yi useQury icerisinde bu metodun ismini yazdiktan sonra bir obje turunde yolluyoruz
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity()
+
+    const document = await ctx.db.get(args.documentId)
+
+    if (!document) {
+      throw new Error('Not found')
     }
-  })
+
+    if (document.isPublished && !document.isArchived) {
+      return document
+    }
+
+    if (!identity) {
+      throw new Error('Not authenticated') // kimlik dogrulanmadi
+    }
+
+    const userId = identity.subject
+
+    if (document.userId !== userId) {
+      throw new Error("Unauthorized") // yetkisiz
+    }
+
+    return document
+
+  }
+})
+
+export const update = mutation({ // _components de Title de kullaniyoruz. belgelerde guncelleme icin kullanilacak
+  args: {
+    id: v.id("documents"), // convex de documents isimli tablodaki id ler
+    title: v.optional(v.string()),
+    content: v.optional(v.string()),
+    coverImage: v.optional(v.string()),
+    icon: v.optional(v.string()),
+    isPublished: v.optional(v.boolean())
+  },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity()
+
+    if (!identity) {
+      throw new Error("Unauthenticated")
+    }
+
+    const userId = identity.subject
+
+    //rest yapiyoruz
+    const { id, ...rest } = args // id de degisikliklar yapacagiz gerisi ayni kalacak. o yuzden digerlerini tek tek yazmiyor javascriptteki rest ozelligi ile rest degiskenine yukluyoruz
+    
+    const existingDocument = await ctx.db.get(args.id)
+
+    if(!existingDocument){
+      throw new Error("Not found")
+    }
+
+    if(existingDocument.userId !== userId){
+      throw new Error("Unauthorized")
+    }
+
+    const document = await ctx.db.patch(args.id, {
+      ...rest,
+    }) // spread 
+
+    return document
+  }
+}
+
+)

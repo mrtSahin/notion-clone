@@ -29,14 +29,6 @@ export const ConfirmModal = ({
       onConfirm()
     }
 
-  // alert dialog disinda bir yere basinca silinmis belgeyi aciyordu. 
-  // ona cozum olarak /documents sayfasina yonlendirme verdik.
-  const router = useRouter()
-  document.addEventListener('click', (e) => {
-    console.log('tik')
-    router.push("/documents")
-  })
-
   return (
     <AlertDialog>
       <AlertDialogTrigger onClick={e => e.stopPropagation()} asChild>

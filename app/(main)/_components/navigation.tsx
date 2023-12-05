@@ -1,7 +1,7 @@
 "use client"
 
 import { ChevronsLeft, MenuIcon, Plus, PlusCircle, Search, Settings, Trash } from 'lucide-react'
-import { usePathname } from 'next/navigation'
+import { useParams, usePathname } from 'next/navigation'
 import React, { ElementRef, useEffect, useRef, useState } from 'react'
 import { useMediaQuery } from 'usehooks-ts'
 import { useMutation } from 'convex/react'
@@ -21,6 +21,7 @@ import { Item } from './item'
 import { DocumentList } from './document-list'
 import { TrashBox } from './trash-box'
 import { useSettings } from '@/hooks/use-settings'
+import Navbar from './navbar'
 
 
 export const Navigation = () => {
@@ -29,7 +30,7 @@ export const Navigation = () => {
   const pathname = usePathname()
   const isMobile = useMediaQuery("(max-width:768px)")// ekran genişliği 768px den küçükse true yoksa false döner
   const create = useMutation(api.documents.create)
-
+  const params = useParams()
 
   const isResizingRef = useRef(false);
   const sidebarRef = useRef<ElementRef<"aside">>(null);
@@ -199,9 +200,17 @@ export const Navigation = () => {
           isMobile && "left-0 w-full"
         )}
       >
-        <nav className='bg-transparent px-2 py-2 w-full'>
+        {!!params.documentId ? (
+          <Navbar
+          isCollapsed={isCollapsed}
+          onResetWidth={resetWidth}
+          />
+        ):(
+          <nav className='bg-transparent px-2 py-2 w-full'>
           {isCollapsed && <MenuIcon onClick={resetWidth} role='button' className='h-6 w-6 text-muted-foreground' />}
         </nav>
+        )}
+        
 
       </div>
     </>
