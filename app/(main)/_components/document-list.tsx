@@ -77,7 +77,7 @@ export const DocumentList = ({
           label={document.title}
           icon={FileIcon}
           documentIcon={document.icon}
-          active={params.documentId === document._id}
+          active={params.documentId === document._id} // olusturdugumuz [documentId] isimli dynamic dosya sayesinde documentId bir params degiskeni oluyor 
           level={level}
           onExpand={()=>onExpand(document._id)}
           expanded={expanded[document._id]}

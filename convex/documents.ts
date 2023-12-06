@@ -293,14 +293,14 @@ export const update = mutation({ // _components de Title de kullaniyoruz. belgel
 
     //rest yapiyoruz
     const { id, ...rest } = args // id de degisikliklar yapacagiz gerisi ayni kalacak. o yuzden digerlerini tek tek yazmiyor javascriptteki rest ozelligi ile rest degiskenine yukluyoruz
-    
+
     const existingDocument = await ctx.db.get(args.id)
 
-    if(!existingDocument){
+    if (!existingDocument) {
       throw new Error("Not found")
     }
 
-    if(existingDocument.userId !== userId){
+    if (existingDocument.userId !== userId) {
       throw new Error("Unauthorized")
     }
 
