@@ -15,7 +15,7 @@ export const Toolbar = ({
   preview
 }: ToolbarProps) => {
   return (
-    <div className="">
+    <div className="pl-[54px] group relative">
       Toolbar
     </div>
   )
