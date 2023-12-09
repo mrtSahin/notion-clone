@@ -5,6 +5,7 @@ import { Id } from "@/convex/_generated/dataModel"
 import { useQuery } from "convex/react"
 import { MenuIcon } from "lucide-react"
 import { useParams } from "next/navigation"
+
 import { Title } from "./title"
 import { Banner } from "./banner"
 import { Menu } from "./menu"
@@ -18,21 +19,25 @@ interface NavbarProps {
 export const Navbar = ({
   isCollapsed,
   onResetWidth
-}: NavbarProps) => {
+}: NavbarProps) => { // 3mr2bm2ey9n4k6phhs57q6bq9kt46yg-gsdgsd
 
   const params = useParams()
 
+  console.log(params)
+
   const document = useQuery(api.documents.getById, {
-    documentId: params.documentId as Id<'documents'>  // params.documentId bir string oldugu icin onu convex deki Id tutune cevirmeliyzi
+    documentId: params.documentId as Id<"documents">,  // params.documentId bir string oldugu icin onu convex deki Id tutune cevirmeliyzi
   })
+  
+
 
   if (document === undefined) { // dosya yoksa ya da daha yuklenmesiyse componentlerin iskeletlerini gosteriyoruz
     return (
       <nav className="bg-background dark:bg-[#1f1f1f] px-3 py-3 flex items-center justify-between">
-        <Title.Skeleton/>
-      <div className="flex items-center gap-x-2">
-        <Menu.Skeleton/>
-      </div>
+        <Title.Skeleton />
+        <div className="flex items-center gap-x-2">
+          <Menu.Skeleton />
+        </div>
       </nav>
     )
   }
@@ -53,9 +58,9 @@ export const Navbar = ({
           />
         )}
         <div className="flex items-center justify-between w-full">
-          <Title initialData={document}/>
-          <div className="felx items-center gap-x-2">
-            <Menu documentId={document._id}/>
+          <Title initialData={document} />
+          <div className="flex items-center gap-x-2">
+            <Menu documentId={document._id} />
           </div>
         </div>
       </nav>

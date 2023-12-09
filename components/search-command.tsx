@@ -17,13 +17,14 @@ import {
 
 import { useSearch } from '@/hooks/use-search'
 import { api } from '@/convex/_generated/api'
-import { getSearch } from '@/convex/documents'
 
 export const SearchCommand = () => {
   const { user } = useUser()
   const router = useRouter()
   const documents = useQuery(api.documents.getSearch)
   const [isMounted, setIsMounted] = useState(false)
+
+
 
   const toggle = useSearch((store) => store.toggle)
   const isOpen = useSearch((store) => store.isOpen)
@@ -47,6 +48,7 @@ export const SearchCommand = () => {
   }, [toggle])
 
   const onSelect = (id: string) => {
+    console.log(id)
     router.push(`/documents/${id}`)
     onClose()
   }
@@ -66,7 +68,7 @@ export const SearchCommand = () => {
           {documents?.map((document) => (
             <CommandItem
               key={document._id}
-              value={`${document._id}-${document.title}`}
+              value={`${document._id}-${document.title}`} // BURADA YANINA EKSTRA OLARAK DOSYA ISMINI DE EKLEDIGIMIZDEN DOLAYI USERINE BASINCA OYLE BIR DOCUMENTID OLMADIGI ICIN URL DE SIKINTI CIKYOR VE SAYFAYI ACAMIYOR HATA ATIYOR
               title={document.title}
               onSelect={onSelect}
             >

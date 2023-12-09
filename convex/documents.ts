@@ -111,7 +111,7 @@ export const create = mutation({ // convex db de veri alani acacak olan metod
   }
 })
 
-export const getTrash = query({
+export const getTrash = query({ // cop kutusundaki belgeleri getirir
 
   handler: async (ctx) => {
     const identity = await ctx.auth.getUserIdentity()
@@ -193,7 +193,7 @@ export const restore = mutation({ //silinen dosyayi geri getirme
   }
 })
 
-export const remove = mutation({
+export const remove = mutation({ // kalici olarak silme
   args: { id: v.id("documents") },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity()
@@ -246,6 +246,7 @@ export const getSearch = query({
 export const getById = query({ // components icerisindeki navbar da kullaniliyor
   args: { documentId: v.id('documents') }, // metodu cagirdigimizda args yi useQury icerisinde bu metodun ismini yazdiktan sonra bir obje turunde yolluyoruz
   handler: async (ctx, args) => {
+
     const identity = await ctx.auth.getUserIdentity()
 
     const document = await ctx.db.get(args.documentId)
@@ -310,6 +311,35 @@ export const update = mutation({ // _components de Title de kullaniyoruz. belgel
 
     return document
   }
-}
+})
 
-)
+export const removeIcon = mutation({
+  args: {
+    id: v.id('documents')
+  },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity()
+
+    if (!identity) {
+      throw new Error('Unauthenticated') // kimlik dogrulanmadi
+    }
+
+    const userId = identity.subject
+
+    const existingDocument = await ctx.db.get(args.id)
+
+    if (!existingDocument) {
+      throw new Error('Not found')
+    }
+
+    if (existingDocument.userId != userId) {
+      throw new Error("Unauthorized")
+    }
+
+    const document = await ctx.db.patch(args.id, {
+      icon: undefined
+    })
+
+    return document
+  }
+})
