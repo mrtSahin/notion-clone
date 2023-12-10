@@ -9,17 +9,19 @@ import { useMutation } from 'convex/react'
 import { api } from '@/convex/_generated/api'
 import { Button } from '@/components/ui/button'
 import { toast } from 'sonner'
+import { useRouter } from 'next/navigation'
 
 function DocumentsPage() {
 
   const { user } = useUser()
   const create = useMutation(api.documents.create)
+  const router = useRouter()
 
   const onCreate = () => {
     const promise = create({ title: 'Untitle' })
-
+      .then((documentId) => router.push(`/documents/${documentId}`)) // belgeyi olusturunca direkt onun sayfasina yonlendiriyor
     toast.promise(promise, { // ekranin altinda uyari kutucugu cikarir
-      loading:'Creating a new note...',
+      loading: 'Creating a new note...',
       success: "New note created!",
       error: "Failed to create a new note."
     })

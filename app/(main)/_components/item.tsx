@@ -62,6 +62,7 @@ const onArchive = (
   event.stopPropagation()
   if(!id) return 
   const promise = archive({id})
+  .then(()=>router.push('/documents')) // silindiginde anasayfaya donuyor
 
   toast.promise(promise,{
     loading: "Moving to trash...",
@@ -91,7 +92,7 @@ const onArchive = (
         if (!expanded) {
           onExpand?.()
         }
-        //router.push(`/documents/${documentId}`)
+        router.push(`/documents/${documentId}`)
       })
 
     toast.promise(promise, {

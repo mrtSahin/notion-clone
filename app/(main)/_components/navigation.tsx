@@ -1,7 +1,7 @@
 "use client"
 
 import { ChevronsLeft, MenuIcon, Plus, PlusCircle, Search, Settings, Trash } from 'lucide-react'
-import { useParams, usePathname } from 'next/navigation'
+import { useParams, usePathname, useRouter } from 'next/navigation'
 import React, { ElementRef, useEffect, useRef, useState } from 'react'
 import { useMediaQuery } from 'usehooks-ts'
 import { useMutation } from 'convex/react'
@@ -25,6 +25,7 @@ import Navbar from './navbar'
 
 
 export const Navigation = () => {
+  const router = useRouter()
   const settings = useSettings()
   const search = useSearch()
   const pathname = usePathname()
@@ -119,7 +120,7 @@ export const Navigation = () => {
 
   const handleCreate = () => {
     const promise = create({ title: "Untitled" })
-
+      .then((documentId) => router.push(`/documents/${documentId}`))// belgeyi olusturunca direkt onun sayfasina yonlendirecek
     toast.promise(promise, {
       loading: "Creating a new note...",
       success: "New note created!",
@@ -202,15 +203,15 @@ export const Navigation = () => {
       >
         {!!params.documentId ? (
           <Navbar
-          isCollapsed={isCollapsed}
-          onResetWidth={resetWidth}
+            isCollapsed={isCollapsed}
+            onResetWidth={resetWidth}
           />
-        ):(
+        ) : (
           <nav className='bg-transparent px-2 py-2 w-full'>
-          {isCollapsed && <MenuIcon onClick={resetWidth} role='button' className='h-6 w-6 text-muted-foreground' />}
-        </nav>
+            {isCollapsed && <MenuIcon onClick={resetWidth} role='button' className='h-6 w-6 text-muted-foreground' />}
+          </nav>
         )}
-        
+
 
       </div>
     </>
