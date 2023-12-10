@@ -37,8 +37,28 @@ export const CoverImageModal = () => {
       setIsSubmitting(true)
       setFile(file)
 
+
+
+      // if (coverImage.url) { // eger resim varsa guncellemeyi farkli yapiyor yoksa farkli
+      //   /** bu sekilde yapmazsak resmi degistirdigimizde onceki resmi veritabanindan silmiyor.
+      //    bu sekil yaparsak onceden resim varsa once onu siliyor sonra bizim yukledigimiz resmi ekliyor*/
+      //   res = await edgestore.publicFiles.upload({
+      //     file,
+      //     options: {
+      //       replaceTargetUrl: coverImage.url
+      //     }
+      //   })
+      // } else {
+      //    res = await edgestore.publicFiles.upload({
+      //     file
+      //   })
+      // }
+
       const res = await edgestore.publicFiles.upload({
-        file
+        file,
+        options: {
+          replaceTargetUrl: coverImage.url // yukaridaki gibi varligini kontrol ederek degil boyle yapmamizin nedeni replaceTargetUrl undefined olabilir
+        }
       })
 
       await update({
