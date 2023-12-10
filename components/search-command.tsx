@@ -68,7 +68,7 @@ export const SearchCommand = () => {
           {documents?.map((document) => (
             <CommandItem
               key={document._id}
-              value={`${document._id}-${document.title}`} // BURADA YANINA EKSTRA OLARAK DOSYA ISMINI DE EKLEDIGIMIZDEN DOLAYI USERINE BASINCA OYLE BIR DOCUMENTID OLMADIGI ICIN URL DE SIKINTI CIKYOR VE SAYFAYI ACAMIYOR HATA ATIYOR
+              value={`${document._id}`} // BURADA YANINA EKSTRA OLARAK DOSYA ISMINI DE EKLEDIGIMIZDEN DOLAYI USERINE BASINCA OYLE BIR DOCUMENTID OLMADIGI ICIN URL DE SIKINTI CIKYOR VE SAYFAYI ACAMIYOR HATA ATIYOR
               title={document.title}
               onSelect={onSelect}
             >
