@@ -56,20 +56,20 @@ export const Item = ({
   const create = useMutation(api.documents.create)
   const archive = useMutation(api.documents.archive);
 
-const onArchive = (
-  event: React.MouseEvent<HTMLDivElement, MouseEvent>
-)=>{
-  event.stopPropagation()
-  if(!id) return 
-  const promise = archive({id})
-  .then(()=>router.push('/documents')) // silindiginde anasayfaya donuyor
+  const onArchive = (
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
+    event.stopPropagation()
+    if (!id) return
+    const promise = archive({ id })
+      .then(() => router.push('/documents')) // silindiginde anasayfaya donuyor
 
-  toast.promise(promise,{
-    loading: "Moving to trash...",
-    success: "Note moved to trash!",
-    error: "Fail to archive to note"
-  })
-}
+    toast.promise(promise, {
+      loading: "Moving to trash...",
+      success: "Note moved to trash!",
+      error: "Fail to archive to note"
+    })
+  }
 
   const handleExpand = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>
@@ -136,7 +136,7 @@ const onArchive = (
         </div>
       )
         : (
-          <Icon className="shrink-0 h-[18px] mr-2 text-muted-foreground" />
+          <Icon className="shrink-0 h-[18px] w-[18px] mr-2 text-muted-foreground" />
         )}
 
       <span className="truncate">
