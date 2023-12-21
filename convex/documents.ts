@@ -56,7 +56,7 @@ export const archive = mutation({
   }
 })
 
-export const getSideBar = query({
+export const getSideBar = query({  // --------------------------------------------------------------------------------------
   args: {
     parentDocument: v.optional(v.id('documents'))
   },
@@ -70,22 +70,23 @@ export const getSideBar = query({
     const userId = identity.subject
 
     const documents = await ctx.db
-      .query('documents')
-      .withIndex('by_user_parent', (q) =>
+      .query('documents') //query işlevi, sorgulanacak koleksiyonun adını belirtmek için kullanılır.
+      .withIndex('by_user_parent', (q) => //withIndex işlevi, sorgu için kullanılacak dizini belirtmek için kullanılır.
         q
           .eq('userId', userId)
           .eq('parentDocument', args.parentDocument)
       )
-      .filter((q) =>
+      .filter((q) => //filter işlevi, sonuçları isArchived alanına göre filtrelemek için kullanılır.
         q.eq(q.field('isArchived'), false)
       )
-      .order('desc')
+      .order('desc')//order işlevi, sonuçları azalan sırada sıralamak için kullanılır.
       .collect()// collect ile verileri bir dizi icerisinde sunuyor
+  
     return documents
   }
 })
 
-export const create = mutation({ // convex db de veri alani acacak olan metod
+export const create = mutation({ // convex db de veri alani acacak olan metod ----------------------------------------------------------------
   args: {
     title: v.string(),
     parentDocument: v.optional(v.id('documents')),
@@ -99,13 +100,15 @@ export const create = mutation({ // convex db de veri alani acacak olan metod
 
     const userId = identity.subject
 
-    const document = await ctx.db.insert('documents', {
+    const document = await ctx.db.insert('documents', { // convex db de satır yani yeni bir belge oluşturma metodu
       title: args.title,
       parentDocument: args.parentDocument,
       userId,
       isArchived: false,
       isPublished: false,
     })
+
+    
     return document
 
   }
@@ -193,7 +196,7 @@ export const restore = mutation({ //silinen dosyayi geri getirme
   }
 })
 
-export const remove = mutation({ // kalici olarak silme
+export const remove = mutation({ // kalici olarak silme -------------------------------------------------------------------
   args: { id: v.id("documents") },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity()
@@ -204,7 +207,7 @@ export const remove = mutation({ // kalici olarak silme
 
     const userId = identity.subject
 
-    const existingDocument = await ctx.db.get(args.id)
+    const existingDocument = await ctx.db.get(args.id)  // belgenin varlığını sorgulamak için alıyor
 
     if (!existingDocument) {
       throw new Error("Not found")
@@ -214,7 +217,7 @@ export const remove = mutation({ // kalici olarak silme
       throw new Error("Unauthorized")
     }
 
-    const document = await ctx.db.delete(args.id)
+    const document = await ctx.db.delete(args.id) // belgeyi convex db den tamamen siliyor
 
     return document
   }
