@@ -296,7 +296,7 @@ export const update = mutation({ // _components de Title de kullaniyoruz. belgel
     const userId = identity.subject
 
     //rest yapiyoruz
-    const { id, ...rest } = args // id de degisikliklar yapacagiz gerisi ayni kalacak. o yuzden digerlerini tek tek yazmiyor javascriptteki rest ozelligi ile rest degiskenine yukluyoruz
+    const { id, ...rest } = args // belgenin varlığını ve kullanıcı iznini kontrol edebilmek için id yi alıyoruz
 
     const existingDocument = await ctx.db.get(args.id)
 
