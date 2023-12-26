@@ -11,10 +11,9 @@ import { toast } from "sonner"
 import { Spinner } from "@/components/spinner"
 import { Search, Trash, Undo } from "lucide-react"
 import { Input } from "@/components/ui/input"
-import { on } from "events"
 import { ConfirmModal } from "@/components/modals/confirm-modal"
 
-export const TrashBox = () => {
+export const TrashBox = () => { // navbardaki trashbox. sildiğimiz belgeleri geri almamıza veya tamamen kaldırmamıza olanak sağlar
 
   const router = useRouter()
   const params = useParams()

@@ -11,14 +11,13 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
-import { useRouter } from 'next/navigation';
 
 interface ConfirmModalProps {
   children: React.ReactNode;
   onConfirm: () => void;
 }
 
-export const ConfirmModal = ({
+export const ConfirmModal = ({ // belgeyi tamamen silmek için kullanıcıya soru dorduğumuz modal
   children,
   onConfirm
 }: ConfirmModalProps) => {

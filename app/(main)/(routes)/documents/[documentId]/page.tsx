@@ -18,7 +18,6 @@ interface DocumentIdPageProps {
   params: { // dynamic dosya oldugu icin bu sekilde yazinca url den aliyor documentId degerini
     documentId: Id<"documents">
   }
-
 }
 
 
@@ -66,8 +65,8 @@ const DocumentIdPage = ({
     <div className="pb-40">
       <Cover url={document.coverImage} />
       <div className="md:max-w-3xl lg:max-w-4xl mx-auto">
-        <Toolbar initialData={document} />
-        <Editor
+        <Toolbar initialData={document} /> {/** belgenin coverImg, title, icon gibi bilgilerinin gösterildiği kısım. üste denk gelir  */}
+        <Editor // belge içerisinde not tutulan kısım. burası alt kısma denk geliyor
           onChange={onChange}
           initialContent={document.content}
         />

@@ -8,7 +8,8 @@ import { ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
 
-export const Heading = () => { // diğer sayfalarda kullanabilmek adına bu şekilde export etmeliyiz
+export const Heading = () => { // giriş ekranında üst kısma denk gelir
+  // diğer sayfalarda kullanabilmek adına bu şekilde export etmeliyiz
   // export default ile hata veriyor
 
   const { isAuthenticated, isLoading } = useConvexAuth()
@@ -29,8 +30,6 @@ export const Heading = () => { // diğer sayfalarda kullanabilmek adına bu şek
       {isAuthenticated && !isLoading && (
         <Button asChild>
           <Link href='/documents'>Enter Sotion<ArrowRight className='h-4 w-4 ml-2'></ArrowRight></Link>
-
-
         </Button>
       )}
       {!isAuthenticated && !isLoading && (

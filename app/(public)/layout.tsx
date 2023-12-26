@@ -1,6 +1,6 @@
 import React from "react"
 
-const PublicLayout = ({
+const PublicLayout = ({ // misafir kullancının görebileceği şeyler
   children
 }: {
   children: React.ReactNode

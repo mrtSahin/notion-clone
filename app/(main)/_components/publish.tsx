@@ -21,9 +21,9 @@ interface PublishProps {
   initialData: Doc<'documents'>
 }
 
-export const Publish = ({
+export const Publish = ({ // belgeleri publish etmemize yarayan sğ üstteki komponent
   initialData
-}: PublishProps) => {
+}: PublishProps) => { 
 
   const origin = useOrigin()
   const update = useMutation(api.documents.update)

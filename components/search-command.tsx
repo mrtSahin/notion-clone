@@ -18,7 +18,7 @@ import {
 import { useSearch } from '@/hooks/use-search'
 import { api } from '@/convex/_generated/api'
 
-export const SearchCommand = () => {
+export const SearchCommand = () => { // arama işlemlerini yaptığımız ve bir modal ile ekrana bastığımız komponent
   const { user } = useUser()
   const router = useRouter()
   const documents = useQuery(api.documents.getSearch)

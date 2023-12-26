@@ -24,7 +24,7 @@ import { useSettings } from '@/hooks/use-settings'
 import Navbar from './navbar'
 
 
-export const Navigation = () => {
+export const Navigation = () => { // soldaki açılır kapanır kısım
   const router = useRouter()
   const settings = useSettings()
   const search = useSearch()

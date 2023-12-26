@@ -11,7 +11,7 @@ import { Button } from '@/components/ui/button'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
 
-function DocumentsPage() {
+function DocumentsPage() { // her hangi bir belge görüntülenmiyorken render edilecek olan komponent
 
   const { user } = useUser()
   const create = useMutation(api.documents.create)

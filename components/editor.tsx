@@ -19,7 +19,7 @@ interface EditorProps {
   editable?: boolean;
 };
 
-const Editor = ({
+const Editor = ({ // not tutmaya yaran kısım bloknote isimli npm kütüphanesini kullanıyoruz. bu notion a yakın bir not tutma özellikleri sunuyor
   onChange,
   initialContent,
   editable

@@ -15,7 +15,7 @@ interface TitleProps {
 
 
 
-export const Title = ({
+export const Title = ({ // componentin title ını düzenlememize yarayan title komponenti
   initialData
 }: TitleProps) => {
 
@@ -87,7 +87,7 @@ export const Title = ({
   )
 }
 
-Title.Skeleton = function TitleSkeleton(){ // Skeletonun amaci biozim title alanimizin verisi apiden gelene kadar orada veri yerine bir sey gostermek. o da genellikle zemain beyazsa gri renkli bir dortgen gostermedir.
+Title.Skeleton = function TitleSkeleton(){ // Skeletonun amaci bizim title alanimizin verisi apiden gelene kadar orada veri yerine bir sey gostermek. o da genellikle zemain beyazsa gri renkli bir dortgen gostermedir.
   return(
     <Skeleton className="h-5 w-20 rounded-md"/>
   )

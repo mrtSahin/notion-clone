@@ -12,7 +12,7 @@ import { Menu } from "./menu"
 import { Publish } from "./publish"
 
 
-interface NavbarProps {
+interface NavbarProps { // ekranın enlemesine üst kısmı
   isCollapsed: boolean
   onResetWidth: () => void
 }
@@ -20,7 +20,7 @@ interface NavbarProps {
 export const Navbar = ({
   isCollapsed,
   onResetWidth
-}: NavbarProps) => { // 3mr2bm2ey9n4k6phhs57q6bq9kt46yg-gsdgsd
+}: NavbarProps) => { 
 
   const params = useParams()
 

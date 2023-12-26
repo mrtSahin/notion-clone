@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button"
 import { Logo } from "./logo"
 
-export const Footer =()=>{
+export const Footer =()=>{ // giriş ekranında alt kısım
   return(
     <div className="flex
      items-center w-full p-6 bg-background dark:bg-[#1F1F1F] z-50"> {/**p: padding, z: z-index */}

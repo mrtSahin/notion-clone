@@ -6,11 +6,10 @@ import { useConvexAuth } from 'convex/react'
 import { Spinner } from '@/components/spinner'
 import { SearchCommand } from '@/components/search-command'
 
-
 import { Navigation } from './_components/navigation'
 
-const MainLayout = ({
-  children
+const MainLayout = ({// belgeler buraya gelir ve burada gösterilir.
+  children  // [documentsId] deki page buna denk gelir.
 }: {
   children: React.ReactNode
 }) => {

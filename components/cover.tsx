@@ -19,7 +19,7 @@ interface CoverProps {
   preview?: boolean
 }
 
-export const Cover = ({
+export const Cover = ({ // coverImg ın görüntülendiği ve işlemlerinin yapıldığı komponent
   url,
   preview
 }: CoverProps) => {
@@ -53,7 +53,7 @@ export const Cover = ({
         />
       )}
 
-      {url && !preview && (
+      {url && !preview && ( // resmi yukarıda zaten gösteriyoruz. eğer preview yani kullanıcı misafirse burdaki buton vs göstermiyoruz
         <div className="opacity-o group-hover:opacity-100 absolute bottom-5 right-5 flex items-center gap-x-2">
           <Button
             onClick={() => coverImage.onReplace(url)}

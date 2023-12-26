@@ -9,7 +9,7 @@ import { useSettings } from '@/hooks/use-settings'
 import { Label } from '../ui/label'
 import { ModeToggle } from '../mode-toggle'
 
-export const SettingsModal = () => {
+export const SettingsModal = () => { // tema  değişikliğini yaptığımız modal
   const settings = useSettings()
 
   return (

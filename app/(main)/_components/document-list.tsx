@@ -9,7 +9,7 @@ import { Item } from "./item"
 import { cn } from "@/lib/utils"
 import { FileIcon } from "lucide-react"
 
-interface DocumentListProps {
+interface DocumentListProps { // navbarda bütün dokümanları göstermek için kullanılır
   parentDocumentId?: Id<"documents"> // buradaki Id her bir documente kendisi id veriyor ona da ._id  seklinde erisiyoruz
   // her bir notuun icerigini farkli bir sayfada acabilmak icin bu id yi kullanacagiz
   level?: number
@@ -58,7 +58,7 @@ export const DocumentList = ({
   return (
     <>
       <p
-        style={{
+        style={{ // iç içe olan belgelerin anlaşılması için içeride olan belgeye fazladan padding left eklenir
           paddingLeft: level ? `${(level * 12) + 25}px` : undefined
       }}
       className={cn(

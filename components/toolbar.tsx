@@ -17,9 +17,9 @@ interface ToolbarProps {  // belgeyi actigimizda ekranin ortasinda gorunen kisim
   preview?: boolean
 }
 
-export const Toolbar = ({
+export const Toolbar = ({ // belgenin coverImg, title, icon gibi bilgilerinin gösterildiği kısım
   initialData,
-  preview
+  preview // eğer misafir kullanıcı görüntülüyorsa bu değer true dur. bununla birlikte kullanıcının üzerinde değişiklik yapıp yapmama olayını belirliyoruz
 }: ToolbarProps) => {
 
   const inputRef = useRef<ElementRef<'textarea'>>(null)

@@ -15,7 +15,7 @@ interface IconPickerProps {
   asChild?: boolean
 }
 
-export const IconPicker = ({
+export const IconPicker = ({ // emojipicker isimle npm kütüphanesi ile kullanıcıların istediiği emojiyi seçmesini sağlıyoruz.
   onChange,
   children,
   asChild

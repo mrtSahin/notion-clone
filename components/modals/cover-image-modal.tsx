@@ -16,7 +16,7 @@ import { api } from '@/convex/_generated/api'
 import { Id } from '@/convex/_generated/dataModel'
 import { useParams } from 'next/navigation'
 
-export const CoverImageModal = () => {
+export const CoverImageModal = () => { // cover image i 
   const [file, setFile] = useState<File>()
   const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -54,14 +54,14 @@ export const CoverImageModal = () => {
       //   })
       // }
 
-      const res = await edgestore.publicFiles.upload({
+      const res = await edgestore.publicFiles.upload({ // resmi edgestore a yüklüyoruz
         file,
         options: {
           replaceTargetUrl: coverImage.url // yukaridaki gibi varligini kontrol ederek degil boyle yapmamizin nedeni replaceTargetUrl undefined olabilir
         }
       })
 
-      await update({
+      await update({ // sonra resmin url ini convex db de tutmak için belgede güncelleme yapıyoruz.
         id: params.documentId as Id<'documents'>,
         coverImage: res.url
       })

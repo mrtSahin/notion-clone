@@ -14,7 +14,7 @@ import {
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
 
-export const UserItem = () => {
+export const UserItem = () => { // navbarda kullanıcı bilgileirni gösteren kısım. aynı zamanda çıkış yapmaya yarar.
   const { user } = useUser()
 
 

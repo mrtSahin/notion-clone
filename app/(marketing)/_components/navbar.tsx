@@ -26,7 +26,7 @@ export const Navbar = () => {
           <Spinner />/**componentste bizim oluşturduğumuz spinnerı kullanıyoruz */
         )}
         {!isAuthenticated && !isLoading && (
-          <>{/** redirect olursa yeni sekmede açar, modal olursa ekranda modal olarak çıkar */}
+          <>{/** redirect olursa yeni sekmede açar, modal olursa ekranda ortada çıkar */}
             <SignInButton mode="modal">
               <Button variant="ghost" size="sm">
                 Log in
